@@ -1,14 +1,10 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Sidebar from "./components/Sidebar";
+import ClientLayout from "@/app/layout/ClientLayout";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Cencal Tinting Dashboard",
-  description: "Appointment booking system",
-};
 
 export default function RootLayout({
   children,
@@ -17,11 +13,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-900 text-white`}>
-        <div className="flex h-screen">
-          <Sidebar />
-          <main className="flex-1 p-8 overflow-y-auto">{children}</main>
-        </div>
+      <body className={inter.className}>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
