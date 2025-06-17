@@ -1,0 +1,86 @@
+"use client";
+
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/app/store/store";
+import ClientInfoHeader from "@/app/components/ClientInfoHeader";
+import ClientInfoFormContent from "@/app/components/ClientInfoFormContent";
+import ServicesNotesForm from "@/app/components/ServicesNotesForm";
+import BackLink from "@/app/components/BackLink";
+import ContactFormModal from "@/app/components/ContactFormModal";
+import SelectContactModal from "@/app/components/SelectContactModal";
+import {
+  setFormData,
+  addContact,
+  setIsAddContactOpen,
+  setIsSelectContactOpen,
+} from "@/app/store/appointmentSlice";
+
+interface ContactFormData {
+  name: string;
+  email: string | null;
+  phone: string | null;
+  additionalPhone: string | null;
+  notes: string | null;
+}
+
+export default function Home() {
+  const dispatch = useDispatch();
+  const { step, isAddContactOpen, isSelectContactOpen, contacts } = useSelector(
+    (state: RootState) => state.appointment
+  );
+
+  const handleAddContact = (data: ContactFormData) => {
+    const [firstName, ...lastNameParts] = data.name.split(" ");
+    const lastName = lastNameParts.join(" ");
+    const newContact = {
+      id: Date.now().toString(),
+      firstName,
+      lastName,
+      email: data.email || "",
+      phone: data.phone || "",
+      additionalPhone: data.additionalPhone || "",
+      address: "",
+      city: "",
+      state: "",
+      zip: "",
+      notes: data.notes || "",
+    };
+    dispatch(addContact(newContact));
+    dispatch(setFormData({ contact: newContact.email }));
+    dispatch(setIsAddContactOpen(false));
+  };
+
+  const handleSelectContact = (contact: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+  }) => {
+    dispatch(setFormData({ contact: contact.email }));
+    dispatch(setIsSelectContactOpen(false));
+  };
+
+  return (
+    <div className="flex flex-col h-full">
+      <BackLink />
+      <div className="flex flex-col gap-4 flex-1 px-4 py-6">
+        <ClientInfoHeader />
+        {step === 1 && <ClientInfoFormContent />}
+        {step === 2 && <ServicesNotesForm />}
+      </div>
+      <ContactFormModal
+        isOpen={isAddContactOpen}
+        onClose={() => dispatch(setIsAddContactOpen(false))}
+        onSave={handleAddContact}
+      />
+      <SelectContactModal
+        isOpen={isSelectContactOpen}
+        onClose={() => dispatch(setIsSelectContactOpen(false))}
+        onSelect={handleSelectContact}
+        contacts={contacts}
+      />
+    </div>
+  );
+}
