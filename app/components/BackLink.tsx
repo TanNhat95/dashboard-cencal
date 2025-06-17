@@ -1,7 +1,8 @@
 "use client";
 
-import { BackLinkIcon } from "@/public/icons/BackLink";
 import React from "react";
+
+import { BackLinkIcon } from "@/public/icons/BackLink";
 
 const BackLink = () => {
   return (

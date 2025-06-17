@@ -2,19 +2,21 @@
 
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/app/store/store";
-import ClientInfoHeader from "@/app/components/ClientInfoHeader";
-import ClientInfoFormContent from "@/app/components/ClientInfoFormContent";
-import ServicesNotesForm from "@/app/components/ServicesNotesForm";
-import BackLink from "@/app/components/BackLink";
-import ContactFormModal from "@/app/components/ContactFormModal";
-import SelectContactModal from "@/app/components/SelectContactModal";
+
 import {
   setFormData,
   addContact,
   setIsAddContactOpen,
   setIsSelectContactOpen,
 } from "@/app/store/appointmentSlice";
+import { RootState } from "@/app/store/store";
+
+import ClientInfoHeader from "@/app/components/ClientInfoHeader";
+import ClientInfoFormContent from "@/app/components/ClientInfoFormContent";
+import ServicesNotesForm from "@/app/components/ServicesNotesForm";
+import BackLink from "@/app/components/BackLink";
+import ContactFormModal from "@/app/components/ContactFormModal";
+import SelectContactModal from "@/app/components/SelectContactModal";
 
 interface ContactFormData {
   name: string;

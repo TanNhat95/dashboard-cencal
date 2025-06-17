@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "react-toastify";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   setFormData,
@@ -13,15 +15,17 @@ import {
   addContact,
 } from "@/app/store/appointmentSlice";
 import { RootState } from "@/app/store/store";
+
+import * as yup from "yup";
+
 import ProgressSteps from "./ProgressSteps";
 import Label from "./LabelCustom";
-import { PlusIcon } from "@/public/icons/Plus";
-import * as yup from "yup";
-import { toast } from "react-toastify";
 import ContactFormModal from "./ContactFormModal";
 import Input from "./Input";
 import Select from "./Select";
+
 import { CancelRedIcon } from "@/public/icons/CancelRed";
+import { PlusIcon } from "@/public/icons/Plus";
 
 interface FormData {
   contact: string;
@@ -62,7 +66,7 @@ const ClientInfoFormContent = () => {
     formState: { errors },
     reset,
     watch,
-    trigger, // Thêm trigger vào destructuring
+    trigger,
   } = useForm<FormData>({
     defaultValues: formData,
     resolver: yupResolver(schema),
@@ -71,11 +75,10 @@ const ClientInfoFormContent = () => {
 
   const contactValue = watch("contact");
 
-  // Cập nhật useEffect để kích hoạt validation khi contactValue thay đổi
   useEffect(() => {
     if (contactValue !== formData.contact) {
       dispatch(setFormData({ ...formData, contact: contactValue }));
-      trigger("contact"); // Kích hoạt validation cho field contact
+      trigger("contact");
     }
   }, [contactValue, dispatch, formData, trigger]);
 
@@ -215,7 +218,6 @@ const ClientInfoFormContent = () => {
             )}
           </div>
 
-          {/* Phần còn lại của form giữ nguyên */}
           <div className="flex flex-col gap-4">
             <p>Vehicle Details</p>
             <div className="flex flex-col gap-6 p-3 border border-grayScale600 rounded-xl">

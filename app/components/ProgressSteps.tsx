@@ -2,7 +2,9 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
+
 import { RootState } from "@/app/store/store";
+
 import { CycleCheckedIcon } from "@/public/icons/CycleChecked";
 import { CycleIcon } from "@/public/icons/Cycle";
 
@@ -39,7 +41,6 @@ const ProgressSteps = () => {
                 )}
               </div>
 
-              {/* Label */}
               <div className="flex flex-col gap-1">
                 <span className="text-sm text-grayScale500">
                   Step {stepNumber}

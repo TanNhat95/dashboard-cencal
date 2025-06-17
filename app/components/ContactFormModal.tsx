@@ -2,11 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+
 import Label from "./LabelCustom";
-import { CancelIcon } from "@/public/icons/Cancel";
 import Input from "./Input";
+
+import { CancelIcon } from "@/public/icons/Cancel";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Name is required"),

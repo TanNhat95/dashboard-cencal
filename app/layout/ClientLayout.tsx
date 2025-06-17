@@ -1,10 +1,13 @@
 "use client";
 
-import Sidebar from "@/app/components/Sidebar";
+import { ToastContainer } from "react-toastify";
+
 import { Provider } from "react-redux";
 import { store } from "@/app/store/store";
-import { ToastContainer } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
+
+import Sidebar from "@/app/components/Sidebar";
 
 export default function ClientLayout({
   children,
