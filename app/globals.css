@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
+input::placeholder {
+  color: #7f859f;
+}
+
 @layer components {
+  .bg-grayScale900 {
+    @apply bg-[#0F0F0F];
+  }
   .bg-grayScale800 {
     @apply bg-[#18181B];
   }
@@ -9,6 +16,9 @@
   }
   .bg-mainBlue {
     @apply bg-[#2E7FF1];
+  }
+  .border-mainBlue {
+    @apply border-[#2E7FF1];
   }
   .text-mainBlue {
     @apply text-[#2E7FF1];
@@ -25,6 +35,9 @@
   .text-grayScale500 {
     @apply text-[#7F859F];
   }
+  .text-grayScale400 {
+    @apply text-[#A4A8B7];
+  }
   .bg-grayScale300 {
     @apply bg-[#C6C8D2];
   }
@@ -34,10 +47,19 @@
   .text-error {
     @apply text-[#F64D3C];
   }
+  .text-bg400 {
+    @apply text-[#7F859F];
+  }
   .border-defaultBlue {
     @apply border-[#058CD7];
   }
+  .bg-grayScale600 {
+    @apply bg-[#2F323E];
+  }
   .border-grayScale600 {
     @apply border-[#2F323E];
+  }
+  .bg-blue10 {
+    @apply bg-[#2E7FF11A];
   }
 }
