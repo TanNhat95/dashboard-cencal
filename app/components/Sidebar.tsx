@@ -41,23 +41,23 @@ const Sidebar = ({ className }: { className?: string }) => {
 
   return (
     <div
-      className={`relative bg-black flex flex-col transition-all duration-300 ease-in-out ${
+      className={`h-full relative bg-grayScale900 flex flex-col transition-all duration-300 ease-in-out ${
         isManuallyCollapsed ? "w-20 md:w-20" : "w-20 md:w-[12.5rem]"
       } ${className} border-r border-grayScale600`}
     >
       <header className="flex items-center justify-center gap-3 h-[3.75rem] border-b border-grayScale600">
         <MainLogo />
       </header>
-      <nav className="flex-grow px-2">
+      <nav className="flex-grow">
         <ul>
           {menuItems.map((item) => (
-            <li key={item.name}>
+            <li key={item.name} className="h-10">
               <Link
                 href={item.href}
-                className={`flex items-center p-3 my-1 rounded-lg transition-colors ${
+                className={`flex items-center p-3 my-1 transition-colors ${
                   item.active
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-400 hover:bg-gray-700 hover:text-white"
+                    ? "bg-blue10 border-mainBlue border-r-4  text-mainBlue"
+                    : "text-grayScale300 hover:bg-gray-700 hover:text-white"
                 } ${
                   isManuallyCollapsed
                     ? "justify-center md:justify-center"
