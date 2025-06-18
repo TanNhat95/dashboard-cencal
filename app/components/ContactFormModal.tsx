@@ -118,14 +118,14 @@ const ContactFormModal: React.FC<ContactFormModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-grayScale800 p-6 rounded-xl text-white max-w-md w-[23.813rem] flex flex-col gap-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end z-50 pb-[0.188rem]">
+      <div className="bg-grayScale800 p-6 rounded-r-xl text-white max-w-md w-[23.813rem] flex flex-col gap-4">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Add Contact</h2>
           <button
             onClick={handleClose}
-            className="text-gray-400 hover:text-white"
+            className="text-gray-400 hover:text-white cursor-pointer"
           >
             <CancelIcon />
           </button>
@@ -183,13 +183,13 @@ const ContactFormModal: React.FC<ContactFormModalProps> = ({
             <button
               type="button"
               onClick={handleClose}
-              className="px-4 py-3 border border-defaultBlue rounded-lg text-defaultBlue text-sm font-bold h-fit"
+              className="px-4 py-3 border border-defaultBlue rounded-lg text-defaultBlue text-sm font-bold h-fit cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-3 bg-defaultBlue rounded-lg text-sm font-bold h-fit"
+              className="px-4 py-3 bg-defaultBlue rounded-lg text-sm font-bold h-fit cursor-pointer"
               disabled={!!formError || Object.keys(errors).length > 0}
             >
               Save
