@@ -2,8 +2,13 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import { debounce } from "lodash";
+import * as yup from "yup";
+
 import {
   setFormData,
   setStep,
@@ -12,16 +17,15 @@ import {
   setIsSelectContactOpen,
 } from "@/app/store/appointmentSlice";
 import { RootState } from "@/app/store/store";
-import ProgressSteps from "./ProgressSteps";
-import Label from "./LabelCustom";
-import { PlusIcon } from "@/public/icons/Plus";
+
+import ProgressSteps from "@/app/components/ProgressSteps";
+import Label from "@/app/components/LabelCustom";
+import Input from "@/app/components/Input";
+import Select from "@/app/components/Select";
+import CustomContactSelect from "@/app/components/ContactSelect";
+
 import { CancelRedIcon } from "@/public/icons/CancelRed";
-import * as yup from "yup";
-import { toast } from "react-toastify";
-import Input from "./Input";
-import Select from "./Select";
-import CustomContactSelect from "./ContactSelect";
-import { debounce } from "lodash";
+import { PlusIcon } from "@/public/icons/Plus";
 
 interface Contact {
   id: string;

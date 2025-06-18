@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import {
   setFormData,
   addContact,
@@ -9,6 +10,7 @@ import {
   setIsSelectContactOpen,
 } from "@/app/store/appointmentSlice";
 import { RootState } from "@/app/store/store";
+
 import ClientInfoHeader from "@/app/components/ClientInfoHeader";
 import ClientInfoFormContent from "@/app/components/ClientInfoFormContent";
 import Services from "@/app/components/Services";

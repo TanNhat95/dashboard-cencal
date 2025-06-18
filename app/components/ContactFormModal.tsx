@@ -6,8 +6,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
-import Label from "./LabelCustom";
-import Input from "./Input";
+import Label from "@/app/components/LabelCustom";
+import Input from "@/app/components/Input";
 
 import { CancelIcon } from "@/public/icons/Cancel";
 

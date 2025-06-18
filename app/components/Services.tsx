@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import ProgressSteps from "./ProgressSteps";
+
+import ProgressSteps from "@/app/components/ProgressSteps";
 
 const Services = () => {
   return (
