@@ -26,7 +26,7 @@ const Select = <T extends FieldValues>({
             {...field}
             value={field.value || ""}
             onChange={(e) => field.onChange(e.target.value)}
-            className="appearance-none w-full text-bg400 px-4 py-3 bg-grayScale600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+            className="appearance-none w-full text-bg400 px-4 py-3 bg-grayScale600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10 cursor-pointer"
             disabled={disabled}
           >
             <option value="" disabled>
