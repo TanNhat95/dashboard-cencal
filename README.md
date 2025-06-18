@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🚗 Appointment Booking Website
+Welcome to the Appointment Booking Website! 🎉This is a sleek web application built with Next.js, React, Redux, and Tailwind CSS, designed to streamline the process of managing client information, vehicle details, services, and appointment scheduling through an intuitive multi-step workflow.
 
-## Getting Started
+📋 Prerequisites
+Before diving in, ensure you have the following installed on your local machine:  
 
-First, run the development server:
+Node.js (v18.x or later recommended) 🛠️  
+npm or yarn (npm is the default in this guide) 📦  
+Git (for cloning the repository) 🌱
 
-```bash
+
+🚀 Installation
+Follow these steps to set up the project locally and get started:  
+1. Clone the Repository
+Clone the repo and navigate to the project directory:  
+git clone https://github.com/TanNhat95/dashboard-cencal
+
+cd dashboard-cencal
+
+3. Install Dependencies
+Install all required packages with:  
+npm install
+
+Or, if you prefer yarn:  
+yarn install
+
+🎮 Running the Project
+Launch the development server and explore the app:  
+
+Start the Server  
 npm run dev
-# or
+
+Or with yarn:  
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open Your BrowserVisit http://localhost:3000 to see the magic unfold! 🌐  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+But if you want to test directly on the website: https://dashboard-cencal-52fqmskv2-tannhat95s-projects.vercel.app
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Last updated: 12:05 AM +07, Thursday, June 19, 2025
