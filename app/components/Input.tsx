@@ -22,7 +22,7 @@ const Input = <T extends FieldValues>({
         <input
           {...field}
           value={field.value || ""}
-          className="px-4 py-3 bg-grayScale600 text-white rounded-lg h-12 w-full"
+          className="px-4 py-3 bg-grayScale600 text-white rounded-lg h-12 w-full focus:outline-none"
           placeholder={placeholder}
           disabled={disabled}
         />

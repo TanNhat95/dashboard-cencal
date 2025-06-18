@@ -1,31 +1,37 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { toast } from "react-toastify";
-
 import { useDispatch, useSelector } from "react-redux";
 import {
   setFormData,
   setStep,
   setIsAddContactOpen,
   addManualVehicle,
-  resetManualSaved,
-  addContact,
+  setIsSelectContactOpen,
 } from "@/app/store/appointmentSlice";
 import { RootState } from "@/app/store/store";
-
-import * as yup from "yup";
-
 import ProgressSteps from "./ProgressSteps";
 import Label from "./LabelCustom";
-import ContactFormModal from "./ContactFormModal";
+import { PlusIcon } from "@/public/icons/Plus";
+import { CancelRedIcon } from "@/public/icons/CancelRed";
+import * as yup from "yup";
+import { toast } from "react-toastify";
 import Input from "./Input";
 import Select from "./Select";
+import CustomContactSelect from "./ContactSelect";
+import { debounce } from "lodash";
 
-import { CancelRedIcon } from "@/public/icons/CancelRed";
-import { PlusIcon } from "@/public/icons/Plus";
+interface Contact {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  additionalPhone?: string;
+  notes?: string;
+}
 
 interface FormData {
   contact: string;
@@ -48,42 +54,120 @@ const schema = yup.object().shape({
 
 const ClientInfoFormContent = () => {
   const dispatch = useDispatch();
-  const {
-    formData,
-    availableVehicles,
-    contacts,
-    step,
-    isManualSaved,
-    isAddContactOpen,
-  } = useSelector((state: RootState) => state.appointment);
+  const { formData, availableVehicles, contacts, step } = useSelector(
+    (state: RootState) => state.appointment
+  );
   const [isManualEntry, setIsManualEntry] = useState(false);
-  const selectedContact = contacts.find((c) => c.email === formData.contact);
+  const selectedContact = useMemo(
+    () => contacts.find((c: Contact) => c.email === formData.contact),
+    [contacts, formData.contact]
+  ) as Contact | undefined;
 
   const {
     control,
     handleSubmit,
     setValue,
-    formState: { errors },
-    reset,
+    formState: { errors, isValid },
     watch,
-    trigger,
   } = useForm<FormData>({
-    defaultValues: formData,
+    defaultValues: {
+      contact: formData.contact || "",
+      year: formData.year || "",
+      make: formData.make || "",
+      model: formData.model || "",
+      vehicleType: formData.vehicleType || "",
+    },
     resolver: yupResolver(schema),
-    mode: "onBlur",
+    mode: "onChange",
   });
 
-  const contactValue = watch("contact");
+  const yearValue = watch("year");
+  const makeValue = watch("make");
+  const modelValue = watch("model");
+  const isManualFieldsValid = isManualEntry
+    ? !!yearValue &&
+      !!makeValue &&
+      !!modelValue &&
+      !errors.year &&
+      !errors.make &&
+      !errors.model
+    : true;
 
   useEffect(() => {
-    if (contactValue !== formData.contact) {
-      dispatch(setFormData({ ...formData, contact: contactValue }));
-      trigger("contact");
-    }
-  }, [contactValue, dispatch, formData, trigger]);
+    const debouncedSetFormData = debounce((data) => {
+      dispatch(setFormData(data));
+    }, 300);
 
+    const subscription = watch((value) => {
+      debouncedSetFormData(value);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+      debouncedSetFormData.cancel();
+    };
+  }, [watch, dispatch]);
+
+  useEffect(() => {
+    if (formData.contact !== watch("contact")) {
+      setValue("contact", formData.contact || "", { shouldValidate: true });
+    }
+    if (formData.year !== watch("year")) {
+      setValue("year", formData.year || "", { shouldValidate: false });
+    }
+    if (formData.make !== watch("make")) {
+      setValue("make", formData.make || "", { shouldValidate: false });
+    }
+    if (formData.model !== watch("model")) {
+      setValue("model", formData.model || "", { shouldValidate: false });
+    }
+    if (formData.vehicleType !== watch("vehicleType")) {
+      setValue("vehicleType", formData.vehicleType || "", {
+        shouldValidate: false,
+      });
+    }
+  }, [formData, setValue, watch]);
+
+  // Xử lý isManualEntry
   useEffect(() => {
     if (isManualEntry) {
+      if (!watch("year")) setValue("year", "", { shouldValidate: false });
+      if (!watch("make")) setValue("make", "", { shouldValidate: false });
+      if (!watch("model")) setValue("model", "", { shouldValidate: false });
+    } else {
+      if (formData.year && formData.year !== watch("year")) {
+        setValue("year", formData.year, { shouldValidate: false });
+      }
+      if (formData.make && formData.make !== watch("make")) {
+        setValue("make", formData.make, { shouldValidate: false });
+      }
+      if (formData.model && formData.model !== watch("model")) {
+        setValue("model", formData.model, { shouldValidate: false });
+      }
+    }
+  }, [isManualEntry, setValue, formData, watch]);
+
+  const handleNext: SubmitHandler<FormData> = (data) => {
+    console.log(data);
+    dispatch(setFormData(data));
+    if (isManualEntry) {
+      dispatch(
+        addManualVehicle({
+          year: data.year,
+          make: data.make,
+          model: data.model,
+        })
+      );
+      toast.success("Vehicle saved successfully!", {
+        position: "top-right",
+      });
+    }
+    if (step === 1) dispatch(setStep(2));
+  };
+
+  const handleManualEntryToggle = () => {
+    setIsManualEntry(!isManualEntry);
+    if (!isManualEntry) {
       setValue("year", "", { shouldValidate: false });
       setValue("make", "", { shouldValidate: false });
       setValue("model", "", { shouldValidate: false });
@@ -92,75 +176,11 @@ const ClientInfoFormContent = () => {
       setValue("make", formData.make || "", { shouldValidate: false });
       setValue("model", formData.model || "", { shouldValidate: false });
     }
-  }, [isManualEntry, setValue, formData]);
-
-  const handleSave: SubmitHandler<FormData> = (data) => {
-    dispatch(setFormData(data));
-    dispatch(
-      addManualVehicle({
-        year: data.year,
-        make: data.make,
-        model: data.model,
-      })
-    );
-    toast.success("Vehicle saved successfully!", {
-      position: "top-right",
-    });
-    reset({
-      contact: data.contact,
-      year: "",
-      make: "",
-      model: "",
-      vehicleType: "",
-    });
   };
 
-  const handleNext: SubmitHandler<FormData> = (data) => {
-    dispatch(setFormData(data));
-    if (step === 1) dispatch(setStep(2));
+  const handleOpenSelectContactModal = () => {
+    dispatch(setIsSelectContactOpen(true));
   };
-
-  const handleManualEntryToggle = () => {
-    setIsManualEntry(!isManualEntry);
-    dispatch(resetManualSaved());
-  };
-
-  const handleSaveContact = (contactData: {
-    name: string;
-    email: string | null;
-    phone: string | null;
-    additionalPhone: string | null;
-    notes: string | null;
-  }) => {
-    const [firstName, ...lastNameParts] = contactData.name.split(" ");
-    const lastName = lastNameParts.join(" ") || "";
-
-    dispatch(
-      addContact({
-        id: Date.now().toString(),
-        firstName,
-        lastName,
-        email: contactData.email || "",
-        phone: contactData.phone || "",
-        additionalPhone: contactData.additionalPhone || "",
-        address: "",
-        city: "",
-        state: "",
-        zip: "",
-        notes: contactData.notes || "",
-      })
-    );
-
-    toast.success("Contact added successfully!", {
-      position: "top-right",
-    });
-  };
-
-  useEffect(() => {
-    if (step === 1) {
-      dispatch(resetManualSaved());
-    }
-  }, [step, dispatch]);
 
   return (
     <div className="flex gap-4">
@@ -181,8 +201,8 @@ const ClientInfoFormContent = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    dispatch(setFormData({ ...formData, contact: "" }));
                     setValue("contact", "", { shouldValidate: true });
+                    dispatch(setFormData({ contact: "" }));
                   }}
                   className="text-error hover:text-red-700 font-bold"
                 >
@@ -190,22 +210,19 @@ const ClientInfoFormContent = () => {
                 </button>
               </div>
             ) : (
-              <div className="flex space-x-2">
-                <div className="relative flex-1">
-                  <Select
+              <div className="relative flex items-center space-x-2">
+                <div className="flex-1">
+                  <CustomContactSelect
                     name="contact"
                     control={control}
                     placeholder="Select contact"
-                    options={contacts.map((contact) => ({
-                      value: contact.email,
-                      label: `${contact.firstName} ${contact.lastName} - ${contact.email}`,
-                    }))}
+                    onClick={handleOpenSelectContactModal}
                   />
                 </div>
                 <button
                   type="button"
                   onClick={() => dispatch(setIsAddContactOpen(true))}
-                  className="border border-blue-500 text-white rounded-lg hover:opacity-70 flex items-center justify-center w-12 h-12"
+                  className="border border-blue-500 text-white rounded-lg hover:opacity-70 flex items-center justify-center w-12 h-12 cursor-pointer"
                 >
                   <PlusIcon />
                 </button>
@@ -329,7 +346,7 @@ const ClientInfoFormContent = () => {
           </div>
 
           <p
-            className="text-blue-500 text-sm mt-2 cursor-pointer"
+            className="text-blue-500 text-sm mt-2 cursor-pointer w-fit"
             onClick={handleManualEntryToggle}
           >
             {!isManualEntry
@@ -338,21 +355,13 @@ const ClientInfoFormContent = () => {
           </p>
 
           <div className="flex justify-end gap-2">
-            {isManualEntry && (
-              <button
-                onClick={handleSubmit(handleSave)}
-                className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 font-semibold"
-              >
-                Save
-              </button>
-            )}
             <button
               onClick={handleSubmit(handleNext)}
-              disabled={isManualEntry && !isManualSaved}
-              className={`px-6 py-3 rounded-lg font-semibold text-white ${
-                isManualEntry && !isManualSaved
-                  ? "bg-gray-500 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600"
+              disabled={!isValid || (isManualEntry && !isManualFieldsValid)}
+              className={`p-3 rounded-lg font-bold text-white text-sm h-12 w-[3.875rem] ${
+                isValid && (!isManualEntry || isManualFieldsValid)
+                  ? "bg-mainBlue hover:bg-blue-600 cursor-pointer"
+                  : "bg-gray-500 cursor-not-allowed"
               }`}
             >
               Next
@@ -361,11 +370,6 @@ const ClientInfoFormContent = () => {
         </form>
       </div>
       <ProgressSteps />
-      <ContactFormModal
-        isOpen={isAddContactOpen}
-        onClose={() => dispatch(setIsAddContactOpen(false))}
-        onSave={handleSaveContact}
-      />
     </div>
   );
 };

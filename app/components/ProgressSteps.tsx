@@ -7,6 +7,7 @@ import { RootState } from "@/app/store/store";
 
 import { CycleCheckedIcon } from "@/public/icons/CycleChecked";
 import { CycleIcon } from "@/public/icons/Cycle";
+import { CycleCompletedIcon } from "@/public/icons/CycleCompleted";
 
 const steps = ["Client Information", "Services", "Review & Send"];
 
@@ -25,7 +26,7 @@ const ProgressSteps = () => {
             <div key={label} className="relative flex gap-6">
               <div className="relative flex flex-col items-center">
                 {isCompleted ? (
-                  <CycleCheckedIcon />
+                  <CycleCompletedIcon />
                 ) : isActive ? (
                   <CycleCheckedIcon />
                 ) : (

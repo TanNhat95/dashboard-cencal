@@ -13,6 +13,7 @@ import { TransactionsIcon } from "@/public/icons/Transactions";
 import { InvoicesIcon } from "@/public/icons/Invoices";
 import { ArrowLeftIcon } from "@/public/icons/ArrowLeft";
 import { MainLogo } from "@/public/icons/MainLogo";
+import { useRouter } from "next/navigation";
 
 interface MenuItem {
   name: string;
@@ -38,6 +39,7 @@ const menuItems: MenuItem[] = [
 ];
 
 const Sidebar = ({ className }: { className?: string }) => {
+  const router = useRouter();
   const [isManuallyCollapsed, setIsManuallyCollapsed] = useState(false);
 
   return (
@@ -46,7 +48,10 @@ const Sidebar = ({ className }: { className?: string }) => {
         isManuallyCollapsed ? "w-20 md:w-20" : "w-20 md:w-[12.5rem]"
       } ${className} border-r border-grayScale600`}
     >
-      <header className="flex items-center justify-center gap-3 h-[3.75rem] border-b border-grayScale600">
+      <header
+        className="flex items-center justify-center gap-3 h-[3.75rem] border-b border-grayScale600 cursor-pointer"
+        onClick={() => router.push("/")}
+      >
         <MainLogo />
       </header>
       <nav className="flex-grow">
@@ -82,7 +87,7 @@ const Sidebar = ({ className }: { className?: string }) => {
         </ul>
       </nav>
       <footer className="h-16 mt-auto border-t border-neutral-700 flex items-center px-4">
-        <div className="flex items-center gap-3 overflow-hidden">
+        <div className="flex items-center gap-3 overflow-hidden cursor-pointer">
           <div className="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center font-bold flex-shrink-0">
             MA
           </div>
@@ -103,7 +108,7 @@ const Sidebar = ({ className }: { className?: string }) => {
         aria-label="Toggle sidebar"
       >
         <ArrowLeftIcon
-          className={`transition-transform duration-300 ease-in-out ${
+          className={`transition-transform duration-300 ease-in-out cursor-pointer ${
             isManuallyCollapsed ? "rotate-180" : "rotate-0"
           }`}
         />

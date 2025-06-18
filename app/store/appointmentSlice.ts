@@ -6,12 +6,8 @@ interface Contact {
   lastName: string;
   email: string;
   phone: string;
-  additionalPhone: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  notes: string;
+  additionalPhone?: string;
+  notes?: string;
 }
 
 interface Vehicle {
@@ -49,7 +45,6 @@ interface AppointmentState {
   isSelectContactOpen: boolean;
   isAddContactOpen: boolean;
   manualVehicles: Vehicle[];
-  isManualSaved: boolean;
   currentAppointment: Partial<Appointment>;
   appointments: Appointment[];
 }
@@ -63,10 +58,6 @@ const initialState: AppointmentState = {
       email: "john.doe@example.com",
       phone: "123-456-7890",
       additionalPhone: "",
-      address: "123 Main St",
-      city: "Anytown",
-      state: "CA",
-      zip: "12345",
       notes: "Default contact 1",
     },
     {
@@ -76,10 +67,6 @@ const initialState: AppointmentState = {
       email: "jane.smith@example.com",
       phone: "098-765-4321",
       additionalPhone: "",
-      address: "456 Elm St",
-      city: "Othertown",
-      state: "NY",
-      zip: "67890",
       notes: "Default contact 2",
     },
   ],
@@ -88,12 +75,11 @@ const initialState: AppointmentState = {
     makes: ["Toyota", "Honda", "Ford"],
     models: ["Camry", "Civic", "F-150"],
   },
-  formData: {},
+  formData: { contact: "" },
   step: 1,
   isSelectContactOpen: false,
   isAddContactOpen: false,
   manualVehicles: [],
-  isManualSaved: false,
   currentAppointment: {},
   appointments: [],
 };
@@ -104,9 +90,12 @@ const appointmentSlice = createSlice({
   reducers: {
     setFormData: (state, action: PayloadAction<Partial<FormData>>) => {
       state.formData = { ...state.formData, ...action.payload };
+      if (action.payload.contact !== undefined) {
+        state.formData.contact = action.payload.contact || "";
+      }
     },
     setStep: (state, action: PayloadAction<number>) => {
-      state.step = action.payload;
+      state.step = Math.max(1, Math.min(action.payload, 3));
     },
     setIsSelectContactOpen: (state, action: PayloadAction<boolean>) => {
       state.isSelectContactOpen = action.payload;
@@ -115,24 +104,29 @@ const appointmentSlice = createSlice({
       state.isAddContactOpen = action.payload;
     },
     addContact: (state, action: PayloadAction<Contact>) => {
-      state.contacts.push(action.payload);
+      if (!action.payload.email && !action.payload.phone) {
+        return;
+      }
+      state.contacts.push({
+        ...action.payload,
+        email: action.payload.email || "",
+        phone: action.payload.phone || "",
+        additionalPhone: action.payload.additionalPhone || "",
+        notes: action.payload.notes || "",
+      });
     },
     addManualVehicle: (state, action: PayloadAction<Vehicle>) => {
       const { year, make, model } = action.payload;
       state.manualVehicles.push(action.payload);
-      if (!state.availableVehicles.years.includes(year)) {
+      if (year && !state.availableVehicles.years.includes(year)) {
         state.availableVehicles.years.push(year);
       }
-      if (!state.availableVehicles.makes.includes(make)) {
+      if (make && !state.availableVehicles.makes.includes(make)) {
         state.availableVehicles.makes.push(make);
       }
-      if (!state.availableVehicles.models.includes(model)) {
+      if (model && !state.availableVehicles.models.includes(model)) {
         state.availableVehicles.models.push(model);
       }
-      state.isManualSaved = true;
-    },
-    resetManualSaved: (state) => {
-      state.isManualSaved = false;
     },
     setCurrentAppointment: (
       state,
@@ -144,12 +138,16 @@ const appointmentSlice = createSlice({
       };
     },
     saveAppointment: (state) => {
+      if (!state.currentAppointment.contact) {
+        return;
+      }
       const newAppointment = {
         ...state.currentAppointment,
         id: Date.now().toString(),
       } as Appointment;
       state.appointments.push(newAppointment);
       state.currentAppointment = {};
+      state.formData = { contact: "" };
       state.step = 1;
     },
   },
@@ -162,7 +160,6 @@ export const {
   setIsAddContactOpen,
   addContact,
   addManualVehicle,
-  resetManualSaved,
   setCurrentAppointment,
   saveAppointment,
 } = appointmentSlice.actions;

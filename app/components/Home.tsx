@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import {
   setFormData,
   addContact,
@@ -10,10 +9,10 @@ import {
   setIsSelectContactOpen,
 } from "@/app/store/appointmentSlice";
 import { RootState } from "@/app/store/store";
-
 import ClientInfoHeader from "@/app/components/ClientInfoHeader";
 import ClientInfoFormContent from "@/app/components/ClientInfoFormContent";
-import ServicesNotesForm from "@/app/components/ServicesNotesForm";
+import Services from "@/app/components/Services";
+import ReviewSend from "@/app/components/ReviewSend";
 import BackLink from "@/app/components/BackLink";
 import ContactFormModal from "@/app/components/ContactFormModal";
 import SelectContactModal from "@/app/components/SelectContactModal";
@@ -34,22 +33,20 @@ export default function Home() {
 
   const handleAddContact = (data: ContactFormData) => {
     const [firstName, ...lastNameParts] = data.name.split(" ");
-    const lastName = lastNameParts.join(" ");
-    const newContact = {
-      id: Date.now().toString(),
-      firstName,
-      lastName,
-      email: data.email || "",
-      phone: data.phone || "",
-      additionalPhone: data.additionalPhone || "",
-      address: "",
-      city: "",
-      state: "",
-      zip: "",
-      notes: data.notes || "",
-    };
-    dispatch(addContact(newContact));
-    dispatch(setFormData({ contact: newContact.email }));
+    const lastName = lastNameParts.join(" ") || "";
+    const email = data.email || "";
+    dispatch(
+      addContact({
+        id: Date.now().toString(),
+        firstName,
+        lastName,
+        email,
+        phone: data.phone || "",
+        additionalPhone: data.additionalPhone || "",
+        notes: data.notes || "",
+      })
+    );
+    dispatch(setFormData({ contact: email }));
     dispatch(setIsAddContactOpen(false));
   };
 
@@ -60,7 +57,7 @@ export default function Home() {
     email: string;
     phone: string;
   }) => {
-    dispatch(setFormData({ contact: contact.email }));
+    dispatch(setFormData({ contact: contact.email || "" }));
     dispatch(setIsSelectContactOpen(false));
   };
 
@@ -68,9 +65,10 @@ export default function Home() {
     <div className="flex flex-col h-full">
       <BackLink />
       <div className="flex flex-col gap-4 flex-1 px-4 py-6">
-        <ClientInfoHeader />
+        <ClientInfoHeader step={step} />
         {step === 1 && <ClientInfoFormContent />}
-        {step === 2 && <ServicesNotesForm />}
+        {step === 2 && <Services />}
+        {step === 3 && <ReviewSend />}
       </div>
       <ContactFormModal
         isOpen={isAddContactOpen}

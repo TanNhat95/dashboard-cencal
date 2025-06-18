@@ -53,6 +53,9 @@ input::placeholder {
   .border-defaultBlue {
     @apply border-[#058CD7];
   }
+  .bg-grayScale700 {
+    @apply bg-[#212226];
+  }
   .bg-grayScale600 {
     @apply bg-[#2F323E];
   }
@@ -61,5 +64,8 @@ input::placeholder {
   }
   .bg-blue10 {
     @apply bg-[#2E7FF11A];
+  }
+  .bg-darkBlue {
+    @apply bg-[#00285F];
   }
 }
