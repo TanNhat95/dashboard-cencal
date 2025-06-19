@@ -1,15 +1,33 @@
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 interface LabelProps {
   children: React.ReactNode;
   required?: boolean;
+  classNames?: {
+    label?: string;
+    required?: string;
+  };
 }
 
-const Label: React.FC<LabelProps> = ({ children, required }) => {
+const Label: React.FC<LabelProps> = ({
+  children,
+  required,
+  classNames = {},
+}) => {
   return (
-    <label className="block text-sm font-medium text-white mb-1">
+    <label
+      className={twMerge(
+        "block text-sm font-medium text-white mb-1",
+        classNames.label
+      )}
+    >
       {children}
-      {required && <span className="text-error ml-1">*</span>}
+      {required && (
+        <span className={twMerge("text-error ml-1", classNames.required)}>
+          *
+        </span>
+      )}
     </label>
   );
 };

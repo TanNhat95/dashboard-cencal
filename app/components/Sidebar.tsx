@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
+import CustomButton from "@/app/components/Button";
+
 import { AppointmentsIcon } from "@/public/icons/Appointments";
 import { ProposalsIcon } from "@/public/icons/Proposals";
 import { ServicesIcon } from "@/public/icons/Services";
@@ -102,17 +104,16 @@ const Sidebar = ({ className }: { className?: string }) => {
           </span>
         </div>
       </footer>
-      <button
+      <CustomButton
+        variant="icon"
+        color="gray"
+        icon={<ArrowLeftIcon />}
+        isIconOnly
+        isCollapsed={isManuallyCollapsed}
+        className="hidden md:block absolute top-1/2 -right-3 z-10 p-0"
         onClick={() => setIsManuallyCollapsed(!isManuallyCollapsed)}
-        className="hidden md:block absolute top-1/2 -right-3 z-10 p-0 text-gray-400 hover:text-white"
         aria-label="Toggle sidebar"
-      >
-        <ArrowLeftIcon
-          className={`transition-transform duration-300 ease-in-out cursor-pointer ${
-            isManuallyCollapsed ? "rotate-180" : "rotate-0"
-          }`}
-        />
-      </button>
+      />
     </div>
   );
 };

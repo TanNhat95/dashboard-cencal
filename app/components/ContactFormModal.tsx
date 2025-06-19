@@ -8,6 +8,7 @@ import * as Yup from "yup";
 
 import Label from "@/app/components/LabelCustom";
 import Input from "@/app/components/Input";
+import CustomButton from "@/app/components/Button";
 
 import { CancelIcon } from "@/public/icons/Cancel";
 
@@ -123,12 +124,13 @@ const ContactFormModal: React.FC<ContactFormModalProps> = ({
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Add Contact</h2>
-          <button
+          <CustomButton
+            variant="icon"
+            color="gray"
+            isIconOnly
+            icon={<CancelIcon />}
             onClick={handleClose}
-            className="text-gray-400 hover:text-white cursor-pointer"
-          >
-            <CancelIcon />
-          </button>
+          />
         </div>
 
         {/* Title */}
@@ -180,20 +182,25 @@ const ContactFormModal: React.FC<ContactFormModalProps> = ({
           </div>
 
           <div className="flex justify-between items-center h-20">
-            <button
-              type="button"
+            <CustomButton
+              variant="bordered"
+              color="blue"
+              size="h-12"
+              className="px-4 py-3 text-sm font-bold"
               onClick={handleClose}
-              className="px-4 py-3 border border-defaultBlue rounded-lg text-defaultBlue text-sm font-bold h-fit cursor-pointer"
             >
               Cancel
-            </button>
-            <button
+            </CustomButton>
+            <CustomButton
+              variant="filled"
+              color="blue"
+              size="h-12"
+              className="px-4 py-3 text-sm font-bold"
               type="submit"
-              className="px-4 py-3 bg-defaultBlue rounded-lg text-sm font-bold h-fit cursor-pointer"
               disabled={!!formError || Object.keys(errors).length > 0}
             >
               Save
-            </button>
+            </CustomButton>
           </div>
         </form>
       </div>

@@ -23,6 +23,7 @@ import Label from "@/app/components/LabelCustom";
 import Input from "@/app/components/Input";
 import Select from "@/app/components/Select";
 import CustomContactSelect from "@/app/components/ContactSelect";
+import CustomButton from "@/app/components/Button";
 
 import { CancelRedIcon } from "@/public/icons/CancelRed";
 import { PlusIcon } from "@/public/icons/Plus";
@@ -202,16 +203,16 @@ const ClientInfoFormContent = () => {
                 </span>
                 |<span>{selectedContact.email}</span>|
                 <span>{selectedContact.phone}</span>
-                <button
-                  type="button"
+                <CustomButton
+                  variant="icon"
+                  color="red"
+                  isIconOnly
+                  icon={<CancelRedIcon />}
                   onClick={() => {
                     setValue("contact", "", { shouldValidate: true });
                     dispatch(setFormData({ contact: "" }));
                   }}
-                  className="text-error hover:text-red-700 font-bold"
-                >
-                  <CancelRedIcon />
-                </button>
+                />
               </div>
             ) : (
               <div className="relative flex items-center space-x-2">
@@ -223,13 +224,13 @@ const ClientInfoFormContent = () => {
                     onClick={handleOpenSelectContactModal}
                   />
                 </div>
-                <button
-                  type="button"
+                <CustomButton
+                  variant="icon"
+                  color="blue"
+                  size="auto"
+                  icon={<PlusIcon />}
                   onClick={() => dispatch(setIsAddContactOpen(true))}
-                  className="border border-blue-500 text-white rounded-lg hover:opacity-70 flex items-center justify-center w-12 h-12 cursor-pointer"
-                >
-                  <PlusIcon />
-                </button>
+                />
               </div>
             )}
             {errors.contact && (
@@ -359,17 +360,16 @@ const ClientInfoFormContent = () => {
           </p>
 
           <div className="flex justify-end gap-2">
-            <button
-              onClick={handleSubmit(handleNext)}
+            <CustomButton
+              variant="filled"
+              color="blue"
+              size="h-12"
+              className="w-[3.875rem]"
               disabled={!isValid || (isManualEntry && !isManualFieldsValid)}
-              className={`p-3 rounded-lg font-bold text-white text-sm h-12 w-[3.875rem] ${
-                isValid && (!isManualEntry || isManualFieldsValid)
-                  ? "bg-mainBlue hover:bg-blue-600 cursor-pointer"
-                  : "bg-gray-500 cursor-not-allowed"
-              }`}
+              onClick={handleSubmit(handleNext)}
             >
               Next
-            </button>
+            </CustomButton>
           </div>
         </form>
       </div>
