@@ -7,6 +7,7 @@ interface CustomButtonProps
   color?: "blue" | "gray" | "red" | "white";
   size?: "h-12" | "h-full" | "h-fit" | "auto";
   icon?: React.ReactNode;
+  isIconOnly?: boolean;
   children?: React.ReactNode;
   className?: string;
   disabled?: boolean;
@@ -18,6 +19,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   color = "blue",
   size = "auto",
   icon,
+  isIconOnly = false,
   children,
   className,
   disabled,
@@ -55,13 +57,15 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       disabled && "text-gray-500 cursor-not-allowed"
     ),
     icon: twMerge(
-      "flex items-center justify-center",
+      isIconOnly
+        ? "inline-flex items-center justify-center p-0" // Minimal wrapper for icon-only
+        : "flex items-center justify-center", // Standard icon button
       color === "blue" && "border border-blue-500 text-white hover:opacity-70",
       color === "gray" && "text-gray-400 hover:text-white",
       color === "red" && "text-red-500 hover:text-red-700",
       color === "white" && "text-white hover:text-gray-200",
-      size === "h-12" && "w-12 h-12",
-      size === "auto" && "w-[3.25rem] h-12",
+      !isIconOnly && size === "h-12" && "w-12 h-12",
+      !isIconOnly && size === "auto" && "w-[3.25rem] h-12",
       disabled && "border-gray-500 text-gray-500 cursor-not-allowed"
     ),
   };
@@ -95,16 +99,18 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       className={twMerge(
         baseClasses,
         variantClasses[variant],
-        sizeClasses[size],
-        contentClasses,
-        variant === "icon" && iconClasses,
+        !isIconOnly && sizeClasses[size], // Skip sizeClasses for isIconOnly
+        !isIconOnly && contentClasses, // Skip contentClasses for isIconOnly
+        isIconOnly && variant === "icon" && iconClasses, // Apply iconClasses for icon-only
         className
       )}
       disabled={disabled}
       {...props}
     >
       {icon && (
-        <span className={variant === "icon" ? iconClasses : ""}>{icon}</span>
+        <span className={isIconOnly || variant === "icon" ? iconClasses : ""}>
+          {icon}
+        </span>
       )}
       {children && <span>{children}</span>}
     </button>
