@@ -1,25 +1,15 @@
 "use client";
 
-import React from "react";
-
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import ProgressSteps from "@/app/components/ProgressSteps";
 import Label from "@/app/components/LabelCustom";
 import CustomButton from "@/app/components/Button";
 import CustomContactSelect from "@/app/components/ContactSelect";
-
 import { PlaceHolderPackageIcon } from "@/public/icons/PlaceholderPackage";
-
-interface Services {
-  package: string;
-  service: string;
-  price?: string;
-  estimatedTime?: string;
-}
+import AddPackageModal from "./AddPackageModal";
 
 interface FormData {
   package: string;
@@ -46,11 +36,14 @@ const Services = () => {
     resolver: yupResolver(schema),
     mode: "onChange",
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPackages, setSelectedPackages] = useState<
+    { id: string; name: string }[]
+  >([]);
 
   return (
     <div className="flex gap-4">
       <div className="bg-grayScale800 flex-1 p-4 rounded-xl text-white flex flex-col gap-6">
-        {/* Selection */}
         <div className="flex flex-col gap-1">
           <Label
             required
@@ -64,17 +57,18 @@ const Services = () => {
             control={control}
             name="package"
             placeholder="Search"
-            onClick={() => {}}
+            onClick={() => setIsModalOpen(true)}
           />
         </div>
 
-        {/* Package */}
         <div className="flex-1 flex flex-col items-center gap-4">
           <PlaceHolderPackageIcon />
           <p>The selected packages will appear here</p>
+          {selectedPackages.map((pkg) => (
+            <div key={pkg.id}>{pkg.name}</div>
+          ))}
         </div>
 
-        {/* Action */}
         <div className="flex justify-between h-12 items-center">
           <CustomButton variant="bordered" color="blue" size="h-12">
             Back
@@ -85,6 +79,11 @@ const Services = () => {
         </div>
       </div>
       <ProgressSteps />
+      <AddPackageModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSelect={setSelectedPackages}
+      />
     </div>
   );
 };

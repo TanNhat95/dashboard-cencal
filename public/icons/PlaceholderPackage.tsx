@@ -22,21 +22,21 @@ export const PlaceHolderPackageIcon = (props: SVGComponentProps) => (
       cy="25.5979"
       r="2.22708"
       stroke="#8BB2FF"
-      stroke-width="0.898876"
+      strokeWidth="0.898876"
     />
     <circle
       cx="52.6964"
       cy="88.4269"
       r="1.68539"
       stroke="#8BB2FF"
-      stroke-width="0.898876"
+      strokeWidth="0.898876"
     />
     <circle
       cx="84.6065"
       cy="46.4045"
       r="1.68539"
       stroke="#8BB2FF"
-      stroke-width="0.898876"
+      strokeWidth="0.898876"
     />
     <circle
       cx="8.5193"
@@ -49,7 +49,7 @@ export const PlaceHolderPackageIcon = (props: SVGComponentProps) => (
       cy="79.2198"
       r="1.69178"
       stroke="#8BB2FF"
-      stroke-width="0.898876"
+      strokeWidth="0.898876"
     />
     <g filter="url(#filter0_f_1_1366)">
       <path
@@ -130,7 +130,7 @@ export const PlaceHolderPackageIcon = (props: SVGComponentProps) => (
       transform="rotate(-60 61.8464 65.6665)"
       fill="url(#paint5_linear_1_1366)"
       stroke="#538FFF"
-      stroke-width="3.14607"
+      strokeWidth="3.14607"
     />
     <rect
       x="71.6465"
@@ -153,9 +153,9 @@ export const PlaceHolderPackageIcon = (props: SVGComponentProps) => (
         width="7.41592"
         height="7.41573"
         filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
+        colorInterpolationFilters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood floodOpacity="0" result="BackgroundImageFix" />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -174,9 +174,9 @@ export const PlaceHolderPackageIcon = (props: SVGComponentProps) => (
         width="11.8617"
         height="11.8615"
         filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
+        colorInterpolationFilters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood floodOpacity="0" result="BackgroundImageFix" />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -196,8 +196,8 @@ export const PlaceHolderPackageIcon = (props: SVGComponentProps) => (
         y2="183.5"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#18181B" />
-        <stop offset="1" stop-color="#D9E8FF" />
+        <stop stopColor="#18181B" />
+        <stop offset="1" stopColor="#D9E8FF" />
       </linearGradient>
       <linearGradient
         id="paint1_linear_1_1366"
@@ -207,8 +207,8 @@ export const PlaceHolderPackageIcon = (props: SVGComponentProps) => (
         y2="45.8025"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#8CB3FF" />
-        <stop offset="1" stop-color="#8BB2FF" />
+        <stop stopColor="#8CB3FF" />
+        <stop offset="1" stopColor="#8BB2FF" />
       </linearGradient>
       <linearGradient
         id="paint2_linear_1_1366"
@@ -218,9 +218,9 @@ export const PlaceHolderPackageIcon = (props: SVGComponentProps) => (
         y2="87.0787"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#E3EBFF" />
-        <stop offset="0.484375" stop-color="#F5F9FF" />
-        <stop offset="0.973958" stop-color="#7AA7FF" />
+        <stop stopColor="#E3EBFF" />
+        <stop offset="0.484375" stopColor="#F5F9FF" />
+        <stop offset="0.973958" stopColor="#7AA7FF" />
       </linearGradient>
       <linearGradient
         id="paint3_linear_1_1366"
@@ -230,8 +230,8 @@ export const PlaceHolderPackageIcon = (props: SVGComponentProps) => (
         y2="27.191"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#94BAFF" />
-        <stop offset="1" stop-color="#94BAFF" stop-opacity="0" />
+        <stop stopColor="#94BAFF" />
+        <stop offset="1" stopColor="#94BAFF" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint4_linear_1_1366"
@@ -241,8 +241,8 @@ export const PlaceHolderPackageIcon = (props: SVGComponentProps) => (
         y2="44.2697"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#94BAFF" />
-        <stop offset="1" stop-color="#94BAFF" stop-opacity="0" />
+        <stop stopColor="#94BAFF" />
+        <stop offset="1" stopColor="#94BAFF" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint5_linear_1_1366"
@@ -252,8 +252,8 @@ export const PlaceHolderPackageIcon = (props: SVGComponentProps) => (
         y2="65.6665"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#18181B" />
-        <stop offset="1" stop-color="#737381" stop-opacity="0" />
+        <stop stopColor="#18181B" />
+        <stop offset="1" stopColor="#737381" stopOpacity="0" />
       </linearGradient>
     </defs>
   </svg>
